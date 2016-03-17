@@ -42,7 +42,7 @@ class SimulationHistogram extends Component{
 
   render() {
     const values = this.values()
-    const hasValues =  (values && values.length >= 100)
+    const hasValues =  (values && values.length >= 3)
     if (hasValues){
       return (this.histogram())
     } else {
