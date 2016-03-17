@@ -67,9 +67,21 @@ export function sampleInputs(inputs, i) {
   return sample
 }
 
+function minSampleSize(inputs, n) {
+  const lengths = _.values(inputs).map(e => e.length)
+  let sampleSize = n
+  if (_.some(lengths, (l) => (l > 1 && l < 5000))){
+    sampleSize = _.min([n, ...lengths])
+  }
+  return sampleSize
+}
+
 export function sample(compiled, inputs, n){
   let samples = []
-  for (let i = 0; i < n; i++) {
+
+  const sampleSize = minSampleSize(inputs, n)
+
+  for (let i = 0; i < sampleSize; i++) {
     const sampledInputs = sampleInputs(inputs, i)
     const newSample = compiled.eval(sampledInputs)
 
