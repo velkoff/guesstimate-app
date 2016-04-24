@@ -20,6 +20,10 @@ export function deleteSimulations(metricIds) {
   return {type: 'DELETE_SIMULATIONS', metricIds}
 }
 
+export function invalidateSimulations(metricIds) {
+  return {type: 'INVALIDATE_SIMULATIONS', metricIds}
+}
+
 export function runSimulations({spaceId}) {
   return (dispatch, getState) => {
     (new GraphPropagation(dispatch, getState, {spaceId})).run()

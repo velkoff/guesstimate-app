@@ -80,7 +80,12 @@
   margin: 5px 0 0 2px;
   font-weight: 200;
   font-family: Lato, Arial, sans-serif;
-  color: #444
+  color: #444;
+  transition: opacity 0.05s ease;
+}
+
+.metricCard:not(.input) .DistributionSummary.inProgress {
+  opacity: 0.4;
 }
 
 .metricCard.input .DistributionSummary {

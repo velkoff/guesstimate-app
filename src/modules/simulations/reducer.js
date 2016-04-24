@@ -37,6 +37,12 @@ export default function simulations(state = [], action = null) {
     return [...state, ...newSimulations]
   case 'DELETE_SIMULATIONS':
     return state.filter(y => !_.includes(action.metricIds, y.metric))
+  case 'INVALIDATE_SIMULATIONS':
+    const withInProgress =  state.map(e => {
+      const inProgress = _.includes(action.metricIds, e.metric)
+      return {...e, inProgress}
+    })
+    return withInProgress
   case 'UPDATE_SIMULATION':
     sim = action.simulation;
     const i = state.findIndex(y => y.metric === sim.metric);

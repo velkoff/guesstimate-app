@@ -5,7 +5,7 @@ import async from 'async'
 
 import e from 'gEngine/engine';
 import type {Simulation, Graph} from '../lib/engine/types.js'
-import {deleteSimulations} from 'gModules/simulations/actions'
+import {invalidateSimulations} from 'gModules/simulations/actions'
 import MetricPropagation from './metric-propagation.js'
 
 function isRecentPropagation(propagationId: number, simulation: Simulation) {
@@ -23,6 +23,7 @@ export class GraphPropagation {
   // metricId, samples
 
   constructor(dispatch: Function, getState: Function, graphFilters: object) {
+    this.graphFilters = graphFilters
     this.dispatch = dispatch
     this.getState = getState
     this.id = Date.now()
@@ -46,10 +47,22 @@ export class GraphPropagation {
   }
 
   run(): void {
+    this._reset()
+    this._propogate()
+  }
+
+  _reset(): void {
+    if (this.graphFilters.onlyHead){
+      let metrics = e.graph.dependencyTree(this._graph(), {...this.graphFilters, onlyHead: false}).map(e => e[0])
+      this.dispatch(invalidateSimulations(metrics))
+    }
+  }
+
+  _propogate(): void {
     if (this.currentStep >= this.totalSteps) {
       return
     }
-    this._step().then(() => {this.run()});
+    this._step().then(() => {this._propogate()});
   }
 
   _step() {

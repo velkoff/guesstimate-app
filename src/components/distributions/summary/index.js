@@ -41,11 +41,14 @@ class DistributionSummarySmall extends Component{
 
     const precision = length === 1 ? 6 : 2
 
+    let className = 'DistributionSummary'
+    className += this.props.inProgress ? ' inProgress' : ''
+
     return (
-      <div className="DistributionSummary">
+      <div className={className}>
         <PrecisionNumber value={parseFloat(mean)} precision={precision}/>
           {!!range && range !== 0 &&
-          <Uncertainty range={range} />
+            <Uncertainty range={range} />
           }
       </div>
     )
@@ -58,17 +61,23 @@ export default class DistributionSummary extends Component{
   }
 
   shouldComponentUpdate(newProps) {
-    return (_.get(this.props, 'simulation.stats') !== _.get(newProps, 'simulation.stats'))
+    return (
+      _.get(this.props, 'simulation.stats') !== _.get(newProps, 'simulation.stats') ||
+      _.get(this.props, 'simulation.inProgress') !== _.get(newProps, 'simulation.inProgress')
+   )
   }
 
   stats(){
     return _.get(this.props.simulation, 'stats') || false
   }
+
   render () {
+    const inProgress = _.get(this.props.simulation, 'inProgress')
     return (
       <DistributionSummarySmall
           showIf={_.isFinite(_.get(this.stats(), 'mean'))}
           stats={this.stats()}
+          inProgress={inProgress}
       />
     )
   }
