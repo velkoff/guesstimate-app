@@ -9,6 +9,12 @@ import {SpaceName} from './spaceName.js'
 import {PrivacyToggle} from './privacy-toggle/index.js'
 import './header.css'
 
+import {
+  ShareButtons,
+  ShareCounts,
+  generateShareIcon
+} from 'react-share'
+
 const ProgressMessage = ({actionState}) => (
   <div className='saveMessage'>
     {actionState == 'SAVING' && 'Saving...'}
@@ -41,6 +47,12 @@ const SpaceHeader = ({canBePrivate, space, isLoggedIn, onSave, onCopy, onDestroy
     privacy_header = (<span><Icon name='lock'/> Private</span>)
   }
 
+  const {FacebookShareButton, TwitterShareButton, LinkedinShareButton} = ShareButtons
+  const {FacebookShareCount, TwitterShareCount, LinkedinShareCount} = ShareCounts
+  const FacebookIcon = generateShareIcon('facebook')
+  const TwitterIcon = generateShareIcon('twitter')
+  const LinkedinIcon = generateShareIcon('linkedin')
+
   return (
     <div className='header'>
 
@@ -50,6 +62,25 @@ const SpaceHeader = ({canBePrivate, space, isLoggedIn, onSave, onCopy, onDestroy
             editableByMe={space.editableByMe}
             onSave={onSaveName}
         />
+
+        <div className='share-buttons'>
+          <FacebookShareButton url={`https://www.getguesstimate.com/models/${space.id}`} title={space.name}>
+            <FacebookIcon size={32} round={true} />
+            {false && <FacebookShareCount url={`https://www.getguesstimate.com/models/${space.id}`} />}
+          </FacebookShareButton>
+        </div>
+        <div className='share-buttons'>
+          <TwitterShareButton url={`https://www.getguesstimate.com/models/${space.id}`} title={space.name}>
+            <TwitterIcon size={32} round={true} />
+            {false && <TwitterShareCount url={`https://www.getguesstimate.com/models/${space.id}`} />}
+          </TwitterShareButton>
+        </div>
+        <div className='share-buttons'>
+          <LinkedinShareButton url={`https://www.getguesstimate.com/models/${space.id}`} title={space.name}>
+            <LinkedinIcon size={32} round={true} />
+            {false && <LinkedinShareCount url={`https://www.getguesstimate.com/models/${space.id}`} />}
+          </LinkedinShareButton>
+        </div>
       </div>
 
       <div className='header-actions'>

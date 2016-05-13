@@ -15,3 +15,8 @@
 .header .saveMessage .label{
   margin-top: -10px;
 }
+
+.share-buttons {
+  float: left;
+  margin: 10px;
+}
