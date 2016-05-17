@@ -78,14 +78,14 @@ export function fetchById(spaceId) {
 }
 
 //required userId for now, but later this can be optional
+//TODO(matthew): Why userId required if organizationId present?
 export function fetch({userId, organizationId}) {
   return (dispatch, getState) => {
     dispatch(sActions.fetchStart())
     api(getState()).models.list({userId, organizationId}, (err, value) => {
       if (err) {
         captureApiError('SpacesFetch', null, null, err, {url: 'fetch'})
-      }
-      else if (value) {
+      } else if (value) {
         const formatted = value.items.map(d => _.pick(d, ['id', 'name', 'description', 'user_id', 'organization_id', 'updated_at', 'metric_count', 'is_private', 'screenshot']))
         dispatch(sActions.fetchSuccess(formatted))
 
@@ -96,6 +96,7 @@ export function fetch({userId, organizationId}) {
   }
 }
 
+// TODO(matthew): Passing id like this is weird, and probably rejected by our server...
 export function create(organizationId) {
   return (dispatch, getState) => {
     const cid = cuid()
@@ -111,10 +112,10 @@ export function create(organizationId) {
       if (err) {
         dispatch(changeActionState('ERROR_CREATING'))
         captureApiError('SpacesCreate', null, null, err, {url: 'SpacesCreate'})
-      }
-      else if (value) {
+      } else if (value) {
         dispatch(changeActionState('CREATED'))
         dispatch(sActions.createSuccess(value, cid))
+        // TODO(matthew): Method for getting urls.
         app.router.history.navigate('/models/' + value.id)
       }
     })
@@ -174,6 +175,7 @@ export function generalUpdate(spaceId, params) {
 }
 
 //updates everything except graph
+//TODO(matthew): Rename to more intuitive name.
 export function update(spaceId, params={}) {
   return (dispatch, getState) => {
     let space = getSpace(getState, spaceId)
@@ -197,12 +199,14 @@ export function updateGraph(spaceId) {
   }
 }
 
+// TODO(matthew): does this belong here?
 function meCanEdit(spaceId, state) {
   const {spaces, me, userOrganizationMemberships} = state
   const space = e.space.get(spaces, spaceId)
   return e.space.canEdit(space, me, userOrganizationMemberships)
 }
 
+// TODO(matthew): Why this function too....
 export function registerGraphChange(spaceId) {
   return (dispatch, getState) => {
     const canEdit = meCanEdit(spaceId, getState())

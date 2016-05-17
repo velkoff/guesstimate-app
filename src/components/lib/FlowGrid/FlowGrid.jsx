@@ -1,4 +1,8 @@
+// TODO(matthew): Why do we need this?
+// TODO(matthew): eliminate semicolon
 'use strict';
+// TODO(matthew): Clean imports. Unused:
+//   - React
 import React, {Component, PropTypes} from 'react'
 
 import './FlowGrid.css'

@@ -1,3 +1,6 @@
+// TODO(matthew): Clean imports. Unused:
+//   - PropTypes, React
+// TODO(matthew): Process rest of file.
 import React, {Component, PropTypes} from 'react'
 import Histogram from 'gComponents/simulations/histogram'
 import MetricName from '../name'
@@ -9,6 +12,8 @@ import './style.css'
 import Icon from 'react-fa'
 import SensitivitySection from '../SensitivitySection/SensitivitySection.js'
 
+// TODO(matthew): Move defensivity down a level.
+// TODO(matthew): Make check all errors.
 const isBreak = (errors) => {return errors[0] && (errors[0] === 'BROKEN_UPSTREAM' || errors[0] === 'BROKEN_INPUT' )}
 const isInfiniteLoop = (errors) => {return errors[0] && (errors[0] === 'INFINITE_LOOP')}
 
@@ -22,12 +27,15 @@ const ErrorSection = ({errors, padTop, hide}) => (
   </div>
 )
 
+// TODO(matthew): No export default
 export default class MetricCardViewSection extends Component {
 
+  // TODO(matthew): Why refs here?
   hasContent() {
     return _.has(this, 'refs.name') && this.refs.name.hasContent()
   }
 
+  // TODO(matthew): More precise API/defensive coding.
   showSimulation() {
     const stats = _.get(this.props, 'metric.simulation.stats')
     if (stats && _.isFinite(stats.mean) && _.isFinite(stats.stdev) && _.isFinite(stats.length)) {

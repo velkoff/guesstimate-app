@@ -13,6 +13,7 @@ function isRecentPropagation(propagationId: number, simulation: Simulation) {
 }
 
 //TODO: Stop tree where there is an error
+//TODO(matthew): Make this not recompute soooo much stuff.
 export class GraphPropagation {
   dispatch: Function;
   getState: Function;

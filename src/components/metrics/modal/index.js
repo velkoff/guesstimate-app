@@ -1,3 +1,4 @@
+// TODO(matthew): Examine this file.
 import React, {Component, PropTypes} from 'react'
 import Modal from 'react-modal'
 import DistributionSummary from 'gComponents/distributions/summary/index.js'
@@ -28,7 +29,9 @@ const PercentileTable = ({values}) => (
   </div>
 )
 
+// TODO(matthew): What does the below mean?
 //Note: Controlled inputs don't pass through very well.  Try to keep them in child connects().
+// TODO(matthew): No export defaults.
 export default class MetricModal extends Component {
   showSimulation() {
     const stats = _.get(this.props, 'metric.simulation.stats')

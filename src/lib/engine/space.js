@@ -40,6 +40,7 @@ const organization = (space, graph) => {
 
 export function toDgraph(spaceId, graph){
   let dGraph = _graph.denormalize(subset(graph, spaceId))
+  // TODO(matthew): Bad naming
   const space = get(graph.spaces, spaceId)
   const spaceUser = user(space, graph)
   const userOrganizationMemberships = graph.userOrganizationMemberships

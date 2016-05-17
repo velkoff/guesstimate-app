@@ -1,3 +1,6 @@
+// TODO(matthew): Clean imports.
+//   unused:
+//     - React
 import React, {Component, PropTypes} from 'react'
 import ReactDOM from 'react-dom'
 
@@ -58,6 +61,7 @@ class MetricCard extends Component {
     gridKeyPress: PT.func.isRequired,
     guesstimateForm: PT.object.isRequired,
     inSelectedCell: PT.bool.isRequired,
+    // TODO(matthew): Delete location. Appears unused.
     location: PTLocation,
     metric: PT.object.isRequired
   }
@@ -83,6 +87,7 @@ class MetricCard extends Component {
      this.setState({modalIsOpen: false});
   }
 
+  // TODO(matthew): Don't use == '13', use === 13 or === '13', whichever is appropriate.
   _handleKeyDown(e) {
     if (e.target === ReactDOM.findDOMNode(this)) {
       if (e.keyCode == '13' && this.props.inSelectedCell) {
@@ -93,6 +98,7 @@ class MetricCard extends Component {
     }
   }
 
+  // TODO(matthew): Can we just remove this entirely and put it up a level?
   _handleKeyPress(e) {
     if (e.target === ReactDOM.findDOMNode(this)) {
       this.props.gridKeyPress(e)
@@ -104,6 +110,8 @@ class MetricCard extends Component {
     return !(this._hasGuesstimate() || this._hasName() || this._hasDescription())
   }
 
+  // TODO(matthew): More precise defensive coding strategies. E.g. all metrics should have guesstimates.
+  // TODO(matthew): Use hasOwnProperty?
   _hasName(){
     return !!this.props.metric.name
   }
@@ -121,11 +129,16 @@ class MetricCard extends Component {
     return (this._hasName() && !this._hasGuesstimate())
   }
 
+  // TODO(matthew): 'values' bad name
+  // TODO(matthew): Mutating values??
   handleChangeMetric(values) {
     values.id = this._id()
     this.props.dispatch(changeMetric(values))
   }
 
+  // TODO(matthew): 'values' bad name
+  // TODO(matthew): Mutating values??
+  // TODO(matthew): Why the blind rename?
   handleChangeGuesstimate(values) {
     let guesstimate = values
     guesstimate.metric = this.props.metric.id
@@ -137,14 +150,17 @@ class MetricCard extends Component {
     this.props.dispatch(removeMetric(this._id()))
   }
 
+  // TODO(matthew): Seems unnecessary...
   _id(){
     return this.props.metric.id
   }
 
+  // TODO(matthew): Use ReactDOM for this.
   focus() {
     $(this.refs.dom).focus();
   }
 
+  // TODO(matthew): Use ReactDOM for this.
   _focusForm() {
     const editorRef = _.get(this.refs, 'DistributionEditor.refs.wrappedInstance')
     editorRef && editorRef.focus()
@@ -159,6 +175,7 @@ class MetricCard extends Component {
   }
 
   _isSelectable(e) {
+    // TODO(matthew): What's this doing?
     const selectableEl = (e.target.parentElement.getAttribute('data-select') !== 'false')
     const notYetSelected = !this.props.inSelectedCell
     return (selectableEl && notYetSelected)
@@ -181,12 +198,16 @@ class MetricCard extends Component {
     return className
   }
 
+  // TODO(matthew): Investigate defensive coding here. Is this necessary? Can we make it not necessary with additional
+  // upstream filtering?
   _errors() {
     if (this.props.isTitle){ return [] }
     let errors = _.get(this.props.metric, 'simulation.sample.errors')
     return errors ? errors.filter(e => !!e) : []
   }
 
+  // TODO(matthew): Investigate defensive coding here. Is this necessary? Can we make it not necessary with additional
+  // upstream filtering?
   _shouldShowSimulation(metric) {
     const stats = _.get(metric, 'simulation.stats')
     return (stats && _.isFinite(stats.stdev) && (stats.length > 5))
@@ -194,6 +215,7 @@ class MetricCard extends Component {
 
   _shouldShowSensitivitySection() {
     const {metric, selectedMetric} = this.props
+    // TODO(matthew): canvasState function lib.
     const isAnalysis = (this.props.canvasState.metricCardView === 'analysis')
     return !!(isAnalysis && selectedMetric && this._shouldShowSimulation(metric) && this._shouldShowSimulation(selectedMetric))
   }
@@ -267,4 +289,5 @@ function select(state) {
   }
 }
 
+// TODO(matthew): Wrong style....
 module.exports = connect(select)(MetricCard);
